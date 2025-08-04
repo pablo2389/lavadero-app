@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TurnoForm from "./components/TurnoForm";
 import TurnosLista from "./components/TurnosLista";
 
@@ -6,6 +6,14 @@ function App() {
   const [telefono, setTelefono] = useState("");
   const [logueado, setLogueado] = useState(false);
   const [mostrarTurnos, setMostrarTurnos] = useState(true);
+  const [mensajeBackend, setMensajeBackend] = useState("");
+
+  useEffect(() => {
+    fetch("https://lavadero-backend-e4zm.onrender.com/")
+      .then((res) => res.json())
+      .then((data) => setMensajeBackend(data.mensaje))
+      .catch((err) => console.error("Error al traer mensaje del backend:", err));
+  }, []);
 
   const handleContinuar = () => {
     if (telefono.trim() !== "") {
@@ -42,6 +50,9 @@ function App() {
         </>
       ) : (
         <>
+          {/* Mensaje desde backend */}
+          <p style={{ fontStyle: "italic", color: "#555" }}>{mensajeBackend}</p>
+
           <h1 style={{ fontSize: 24, marginBottom: 15 }}>Bienvenido: {telefono}</h1>
 
           <TurnoForm telefono={telefono} />
