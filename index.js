@@ -1,3 +1,5 @@
+require('dotenv').config(); // asegurate de cargar .env
+
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
@@ -5,9 +7,6 @@ const nodemailer = require('nodemailer');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-console.log("EMAIL_USER desde .env:", process.env.EMAIL_USER);
-
-// Configurar nodemailer transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -16,18 +15,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.use(cors({
-  origin: 'https://lavadero-appone.vercel.app',
-}));
-
+app.use(cors());
 app.use(express.json());
 
-// Ruta simple de test
 app.get('/api/mensaje', (req, res) => {
   res.json({ mensaje: "Bienvenido al backend del lavadero!" });
 });
 
-// Función para enviar email
 async function enviarConfirmacion(emailCliente, nombreCliente, fechaTurno) {
   const fechaFormateada = new Date(fechaTurno).toLocaleString("es-AR", {
     weekday: "long",
@@ -56,7 +50,6 @@ async function enviarConfirmacion(emailCliente, nombreCliente, fechaTurno) {
   return transporter.sendMail(mailOptions);
 }
 
-// Ruta POST para enviar mail
 app.post('/api/enviar-confirmacion', async (req, res) => {
   try {
     const { email, nombre, fecha } = req.body;
@@ -70,4 +63,12 @@ app.post('/api/enviar-confirmacion', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Servidor Express corriendo en puerto ${PORT}`);
+});
+
+// Capturar errores no manejados y mostrarlos
+process.on('uncaughtException', err => {
+  console.error('Uncaught Exception:', err);
+});
+process.on('unhandledRejection', err => {
+  console.error('Unhandled Rejection:', err);
 });
