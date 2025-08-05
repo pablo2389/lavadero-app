@@ -35,7 +35,8 @@ function TurnoForm({ telefono }) {
     const data = { email, nombre, fecha, telefono };
 
     try {
-      const res = await fetch("http://localhost:3000/api/enviar-confirmacion", {
+     const res = await fetch("https://lavadero-backend-e4zm.onrender.com/api/enviar-confirmacion", 
+ {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
