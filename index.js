@@ -1,11 +1,16 @@
-require('dotenv').config(); // asegurate de cargar .env
-
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 
+console.log('Iniciando servidor...');
+
 const app = express();
+
 const PORT = process.env.PORT || 3000;
+console.log('Puerto:', PORT);
+console.log('EMAIL_USER:', process.env.EMAIL_USER ? '✅' : '❌');
+console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '✅' : '❌');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -15,11 +20,30 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+transporter.verify(function(error, success) {
+  if (error) {
+    console.error('Error verificando transporter:', error);
+  } else {
+    console.log('Servidor listo para enviar emails');
+  }
+});
+
 app.use(cors());
 app.use(express.json());
 
 app.get('/api/mensaje', (req, res) => {
   res.json({ mensaje: "Bienvenido al backend del lavadero!" });
+});
+
+app.post('/api/enviar-confirmacion', async (req, res) => {
+  try {
+    const { email, nombre, fecha } = req.body;
+    await enviarConfirmacion(email, nombre, fecha);
+    res.status(200).json({ mensaje: "Email enviado correctamente" });
+  } catch (error) {
+    console.error("Error enviando mail:", error);
+    res.status(500).json({ error: "Error al enviar el correo" });
+  }
 });
 
 async function enviarConfirmacion(emailCliente, nombreCliente, fechaTurno) {
@@ -50,25 +74,14 @@ async function enviarConfirmacion(emailCliente, nombreCliente, fechaTurno) {
   return transporter.sendMail(mailOptions);
 }
 
-app.post('/api/enviar-confirmacion', async (req, res) => {
-  try {
-    const { email, nombre, fecha } = req.body;
-    await enviarConfirmacion(email, nombre, fecha);
-    res.status(200).json({ mensaje: "Email enviado correctamente" });
-  } catch (error) {
-    console.error("Error enviando mail:", error);
-    res.status(500).json({ error: "Error al enviar el correo" });
-  }
-});
-
 app.listen(PORT, () => {
   console.log(`Servidor Express corriendo en puerto ${PORT}`);
 });
 
-// Capturar errores no manejados y mostrarlos
-process.on('uncaughtException', err => {
+// Manejo de errores no manejados
+process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
 });
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   console.error('Unhandled Rejection:', err);
 });
