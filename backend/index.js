@@ -1,18 +1,27 @@
-const express = require('express');
-const app = express();
+async function enviarConfirmacion(emailCliente, nombreCliente, fechaTurno) {
+  const fechaFormateada = new Date(fechaTurno).toLocaleString("es-AR", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
-const PORT = process.env.PORT || 3000;
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: emailCliente,
+    subject: "📅 Confirmación de turno ✔️",
+    html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <p>Hola <strong>${nombreCliente}</strong> 👋,</p>
+        <p>Tu turno fue confirmado para:</p>
+        <p style="font-size: 18px; font-weight: bold; color: #2e86de;">${fechaFormateada}</p>
+        <p>¡Gracias por elegirnos! 😊</p>
+        <p>Saludos,<br>El equipo de <strong>Lavadero</strong></p>
+      </div>
+    `
+  };
 
-// Ruta raíz
-app.get('/', (req, res) => {
-  res.send("¡Servidor Express corriendo!");
-});
-
-// Ruta que el frontend necesita
-app.get('/api/mensaje', (req, res) => {
-  res.json({ mensaje: 'Hola desde backend en Render!' });
-});
-
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
-});
+  return transporter.sendMail(mailOptions);
+}
