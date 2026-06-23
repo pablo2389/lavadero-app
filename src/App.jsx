@@ -9,12 +9,14 @@ const styles = `
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #0a0a0a; color: #e8e8e8; font-family: 'Inter', sans-serif; min-height: 100vh; }
   .app-wrapper { min-height: 100vh; background: linear-gradient(135deg, #0a0a0a 0%, #111827 100%); }
-  .header { border-bottom: 1px solid #1f2937; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .header { border-bottom: 1px solid #1f2937; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+  @media (min-width: 480px) { .header { padding: 20px 24px; } }
   .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; color: #fff; }
   .logo span { color: #3b82f6; }
   .btn-salir { background: transparent; border: 1px solid #374151; color: #9ca3af; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; transition: all 0.2s; }
   .btn-salir:hover { border-color: #6b7280; color: #e8e8e8; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px 14px; }
+  @media (min-width: 480px) { .container { padding: 32px 20px; } }
   .login-card { background: #111827; border: 1px solid #1f2937; border-radius: 16px; overflow: hidden; max-width: 480px; margin: 0 auto; }
   @media (min-width: 768px) {
     .cliente-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
@@ -39,31 +41,34 @@ const styles = `
   .btn-whatsapp:hover { background: #15803d; }
   .btn-whatsapp:disabled { background: #1f2937; color: #4b5563; cursor: not-allowed; }
   .welcome-bar { padding: 24px 0; border-bottom: 1px solid #1f2937; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-  .welcome-bar h2 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; color: #fff; }
+  .welcome-bar h2 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: #fff; }
   .welcome-bar p { color: #6b7280; font-size: 13px; margin-top: 2px; }
-  .counter-badge { background: #1e3a5f; border: 1px solid #1d4ed8; border-radius: 10px; padding: 10px 18px; text-align: center; }
-  .counter-badge .num { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: #93c5fd; line-height: 1; }
+  .counter-badge { background: #1e3a5f; border: 1px solid #1d4ed8; border-radius: 10px; padding: 8px 16px; text-align: center; flex-shrink: 0; }
+  .counter-badge .num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: #93c5fd; line-height: 1; }
   .counter-badge .label { font-size: 10px; color: #6b7280; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
-  .section { background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 28px; margin-bottom: 16px; }
+  @media (min-width: 480px) { .welcome-bar h2 { font-size: 32px; } .counter-badge .num { font-size: 32px; } }
+  .section { background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+  @media (min-width: 480px) { .section { padding: 28px; } }
   .section-title { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #3b82f6; margin-bottom: 20px; }
   .msg-ok { color: #4ade80; font-size: 14px; margin-top: 12px; }
   .msg-err { color: #f87171; font-size: 14px; margin-top: 12px; }
   .btn-toggle { width: 100%; padding: 12px; background: transparent; border: 1px solid #1f2937; color: #9ca3af; border-radius: 10px; cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; transition: all 0.2s; margin-bottom: 16px; }
   .btn-toggle:hover { border-color: #374151; color: #e8e8e8; }
-  .turno-item { background: #0a0a0a; border: 1px solid #1f2937; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+  .turno-item { background: #0a0a0a; border: 1px solid #1f2937; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .turno-dot { width: 8px; height: 8px; background: #3b82f6; border-radius: 50%; flex-shrink: 0; }
-  .turno-info { flex: 1; }
-  .turno-nombre { font-weight: 500; font-size: 14px; color: #e8e8e8; }
-  .turno-meta { font-size: 12px; color: #6b7280; margin-top: 2px; }
+  .turno-info { flex: 1; min-width: 0; }
+  .turno-nombre { font-weight: 500; font-size: 14px; color: #e8e8e8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .turno-meta { font-size: 12px; color: #6b7280; margin-top: 2px; white-space: normal; word-break: break-word; }
   .btn-borrar { width: 100%; padding: 12px; background: transparent; border: 1px solid #7f1d1d; color: #f87171; border-radius: 10px; cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; transition: all 0.2s; margin-top: 16px; }
   .btn-borrar:hover { background: #7f1d1d20; }
   .badge-admin { display: inline-block; background: #1e3a5f; color: #93c5fd; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; margin-left: 10px; }
   .config-box { background: #0a0a0a; border: 1px solid #1f2937; border-radius: 10px; padding: 16px; margin-bottom: 20px; }
-  .config-row { display: flex; gap: 8px; align-items: center; }
-  .config-row input { flex: 1; background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 10px 12px; color: #e8e8e8; font-size: 14px; font-family: 'Inter', sans-serif; outline: none; }
+  .config-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .config-row input { flex: 1; min-width: 0; background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 10px 12px; color: #e8e8e8; font-size: 14px; font-family: 'Inter', sans-serif; outline: none; }
   .config-row input:focus { border-color: #3b82f6; }
-  .btn-save { padding: 10px 16px; background: #3b82f6; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; white-space: nowrap; }
+  .btn-save { padding: 10px 16px; background: #3b82f6; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; white-space: nowrap; width: 100%; }
   .btn-save:hover { background: #2563eb; }
+  @media (min-width: 480px) { .btn-save { width: auto; } }
 `;
 
 function App() {
